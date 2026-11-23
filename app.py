@@ -2,6 +2,7 @@ import sys
 
 from PySide6.QtWidgets import (
     QApplication,
+    QAbstractSpinBox,
     QMainWindow,
     QPushButton,
     QSpinBox,
@@ -14,9 +15,15 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.setWindowTitle("Start / Stop")
+        self.setMinimumWidth(200)
 
         self.spin_box = QSpinBox()
         self.spin_box.setRange(0, 10000)
+        self.spin_box.setReadOnly(True)
+        self.spin_box.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.spin_box.setStyleSheet(
+            "QSpinBox, QSpinBox QLineEdit { background-color: #e6e6e6; }"
+        )
 
         self.toggle_button = QPushButton("Start")
         self.toggle_button.setCheckable(True)
