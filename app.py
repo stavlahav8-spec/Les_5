@@ -10,12 +10,18 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from PySide6.QtCore import QTimer
+
 
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.setWindowTitle("Start / Stop")
         self.setMinimumWidth(200)
+
+        self.counter = 0 
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.timer_method)
 
         self.spin_box = QSpinBox()
         self.spin_box.setRange(0, 10000)
@@ -39,6 +45,18 @@ class MainWindow(QMainWindow):
 
     def _update_button_text(self, started: bool) -> None:
         self.toggle_button.setText("Stop" if started else "Start")
+        if started:
+            self.counter = 0 
+            self.timer.start(10)
+        else:
+            self.timer.stop()
+
+    def timer_method(self) -> None:
+        self.counter += 1
+        self.spin_box.setValue(self.counter)
+        if self.spin_box.value() == 500:
+            self.timer.stop()
+            self.toggle_button.setChecked(False)
 
 
 def main() -> int:
