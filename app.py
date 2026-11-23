@@ -3,14 +3,16 @@ import sys
 from PySide6.QtWidgets import (
     QApplication,
     QAbstractSpinBox,
+    QHBoxLayout,
     QMainWindow,
     QPushButton,
+    QSlider,
     QSpinBox,
     QVBoxLayout,
     QWidget,
 )
 
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import Qt, QTimer
 
 
 class MainWindow(QMainWindow):
@@ -39,8 +41,23 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.spin_box)
         layout.addWidget(self.toggle_button)
 
+        self.slider = QSlider(Qt.Orientation.Vertical)
+        self.slider.setRange(0,255)
+        self.slider_spin_box = QSpinBox()
+        self.slider_spin_box.setRange(0, 255)
+        self.slider_spin_box.setReadOnly(True)
+        self.slider_spin_box.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+
+        right_layout = QVBoxLayout()
+        right_layout.addWidget(self.slider)
+        right_layout.addWidget(self.slider_spin_box)
+
+        main_layout = QHBoxLayout()
+        main_layout.addLayout(layout)
+        main_layout.addLayout(right_layout)
+
         central_widget = QWidget()
-        central_widget.setLayout(layout)
+        central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
     def _update_button_text(self, started: bool) -> None:
