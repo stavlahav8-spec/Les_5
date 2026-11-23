@@ -43,6 +43,8 @@ class MainWindow(QMainWindow):
 
         self.slider = QSlider(Qt.Orientation.Vertical)
         self.slider.setRange(0,255)
+        self.slider.valueChanged.connect(self.slider_method)
+
         self.slider_spin_box = QSpinBox()
         self.slider_spin_box.setRange(0, 255)
         self.slider_spin_box.setReadOnly(True)
@@ -75,6 +77,8 @@ class MainWindow(QMainWindow):
             self.timer.stop()
             self.toggle_button.setChecked(False)
 
+    def slider_method(self, value: int) -> None:
+        self.slider_spin_box.setValue(value)
 
 def main() -> int:
     app = QApplication(sys.argv)
